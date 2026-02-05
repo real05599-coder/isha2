@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 🌸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(180deg, #fff5f7, #fff);
+      color: #444;
+      text-align: center;
+      overflow: hidden;
+    }
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+    .screen.active { opacity: 1; pointer-events: auto; }
+    h1 { font-family: 'Pacifico', cursive; color: #e58ca0; }
+    p { margin-top: 15px; line-height: 1.6; }
+    button {
+      margin-top: 30px;
+      padding: 14px 26px;
+      border-radius: 30px;
+      border: none;
+      background: #f6c1cc;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    input {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 20px;
+      border: 1px solid #f3b6c2;
+      text-align: center;
+      width: 120px;
+      font-size: 16px;
+    }
+    .candles { display: flex; gap: 10px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
+    .candle {
+      width: 14px; height: 40px; background: #ffd6e0; border-radius: 6px; position: relative; cursor: pointer;
+    }
+    .flame {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      width: 10px; height: 14px; background: #ffb347; border-radius: 50% 50% 50% 50%;
+      animation: flicker 1s infinite;
+    }
+    @keyframes flicker { 0%{opacity:.8;}50%{opacity:1;}100%{opacity:.7;} }
+    .cinema { background: radial-gradient(circle at center, #111 0%, #000 80%); color: #eee; }
+    .name { font-family: 'Pacifico', cursive; font-size: 42px; }
+    .slideshow img { max-width: 90%; border-radius: 20px; }
+    .hug {
+      width: 120px; height: 120px; background: #f6c1cc; border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);} }
+  </style>
+</head>
+<body>
+
+<audio id="song" src="Tenu Sang Rakhna Jigra 320 Kbps.mp3"></audio>
+
+<div class="screen active" id="welcome">
+  <h1>Happy Birthday, my sunshine 🌸</h1>
+  <p>May your day be as soft, warm, and beautiful as your heart.</p>
+  <button onclick="next('age')">Step inside ✨</button>
+</div>
+
+<div class="screen" id="age">
+  <h1>How old are you today?</h1>
+  <input type="number" id="ageInput" />
+  <button onclick="makeCandles()">Continue 🎂</button>
+</div>
+
+<div class="screen" id="candlesScreen">
+  <h1>Make a wish 🤍</h1>
+  <div class="candles" id="candles"></div>
+</div>
+
+<div class="screen" id="music">
+  <h1>Do you want to play a song?</h1>
+  <button onclick="playSong()">Yes</button>
+  <button onclick="playSong()">Obviously Yes</button>
+</div>
+
+<div class="screen cinema" id="name">
+  <div class="name">Praya Dhan</div>
+</div>
+
+<div class="screen cinema" id="slideshowIntro">
+  <p>Tap the screen to change the photo 🤍</p>
+</div>
+
+<div class="screen cinema slideshow" id="slideshow"></div>
+
+<div class="screen" id="question">
+  <h1>Did you smile?</h1>
+  <button onclick="next('message')">Yes</button>
+  <button onclick="next('message')">Of course</button>
+</div>
+
+<div class="screen" id="message">
+  <p>Thankkkk youu for everything..<br>
+  I can't explain how blessed I feel to have you,<br>
+  it's just being a brother I don't show my love<br>
+  doesn't means you are not special..<br>
+  If I have to chose..<br>
+  I'll chose you as my protector for each life 🤍</p>
+  <div class="hug"></div>
+</div>
+
+<div class="screen" id="end">
+  <p>This place will always be here for you 🤍</p>
+</div>
+
+<script>
+let screens = document.querySelectorAll('.screen');
+function next(id){ screens.forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+let blown = 0;
+function makeCandles(){
+  let age = parseInt(document.getElementById('ageInput').value);
+  if(!age) return;
+  next('candlesScreen');
+  let container = document.getElementById('candles');
+  container.innerHTML=''; blown=0;
+  for(let i=0;i<age;i++){
+    let c = document.createElement('div'); c.className='candle';
+    let f = document.createElement('div'); f.className='flame';
+    c.appendChild(f);
+    c.onclick=()=>{
+      if(f){ c.removeChild(f); blown++; if(blown===1) next('music'); if(blown===age) setTimeout(showName,1200); }
+    };
+    container.appendChild(c);
+  }
+}
+function playSong(){ document.getElementById('song').play(); }
+function showName(){ next('name'); setTimeout(()=>{ next('slideshowIntro'); },3000); }
+
+let photos = [
+  'ChatGPT Image Feb 4, 2026, 10_17_05 PM.png',
+  'ChatGPT Image Feb 4, 2026, 10_16_59 PM.png',
+  'ChatGPT Image Feb 4, 2026, 10_17_03 PM.png',
+  'ChatGPT Image Feb 4, 2026, 10_17_07 PM.png',
+  'ChatGPT Image Feb 4, 2026, 10_16_56 PM.png',
+  'ChatGPT Image Feb 2, 2026, 09_39_34 PM.png'
+];
+let index=0;
+document.getElementById('slideshowIntro').onclick=()=>{ showPhoto(); };
+function showPhoto(){
+  next('slideshow');
+  let s=document.getElementById('slideshow');
+  s.innerHTML=`<img src="${photos[index]}"/>`;
+  s.onclick=()=>{
+    index++;
+    if(index<photos.length) showPhoto(); else next('question');
+  }
+}
+</script>
+</body>
+</html>
